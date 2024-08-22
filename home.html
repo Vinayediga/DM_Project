@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glassmorphism Navbar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnH2N2Zkvw1G9r0QAR6vr7N2Ry1T/UlJ1ljTZheY0DdZe70ze5J7DTx6oN7EGX1TchZctF3Dg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Glassmorphism effect */
+        .glassmorphism {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hamburger animation */
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #fff;
+            transition: all 0.3s;
+        }
+
+        .hamburger.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Animated gradient background */
+        body {
+            margin: 0;
+            height: 100vh;
+            background-color: #2e0249 ;
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            overflow: auto; /* Ensure overflow is scrollable */
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Red glassmorphism bar */
+        .moving-bar {
+            position: fixed;
+            top: 60px; /* Adjust if header height changes */
+            left: 0;
+            height: 35px;
+            width: 100vw;
+            background: rgba(255, 0, 0, 0.7); /* Red color with transparency */
+            border: 1px solid rgba(255, 0, 0, 1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            animation: moveBar 4s linear infinite;
+        }
+
+        /* Animation for the bar */
+        @keyframes moveBar {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Glassmorphism box with image and button */
+        .glass-box {
+            margin: 100px auto 20px;
+            max-width: 800px;
+            width: 90%;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .glass-box img {
+            height: 70%;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .glass-box button {
+            margin-top: 20px;
+            width: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(255,255,255,0.1) 100%);
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .glass-box button:hover {
+            background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0.2) 100%);
+            transform: scale(1.05);
+        }
+
+        .glass-box button:active {
+            transform: scale(0.95);
+        }
+
+        /* Additional margin for spacing between components */
+        .glass-box:not(:last-child) {
+            margin-bottom: 40px;
+        }
+
+        /* Profile picture styling */
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-left: 10px;
+        }
+
+        .username {
+            margin-left: 10px;
+            font-weight: 600;
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 350px) {
+            .glass-box {
+                height: 300px; /* Adjust height for smaller screens */
+            }
+
+            .glass-box img {
+                height: 60%; /* Adjust image height for smaller screens */
+            }
+
+            .glass-box button {
+                padding: 8px; /* Reduce padding on smaller screens */
+                font-size: 14px; /* Adjust button font size */
+            }
+
+            .moving-bar {
+                height: 15px; /* Reduce bar height */
+            }
+
+            .hamburger span {
+                width: 20px; /* Reduce hamburger size */
+                height: 2px; /* Reduce line thickness */
+            }
+
+            nav button {
+                padding: 8px 12px; /* Reduce button padding */
+                font-size: 14px; /* Adjust font size */
+            }
+
+            .username {
+                display: none; /* Hide username on very small screens */
+            }
+        }
+    </style>
+</head>
+<body class="text-white">
+
+    <nav class="glassmorphism fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-4">
+        <!-- Hamburger Menu -->
+        <div class="hamburger cursor-pointer" onclick="toggleMenu(this)">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- Right side buttons and profile -->
+        <div class="flex items-center">
+            <button class="bg-gradient-to-r from-blue-500 to-green-400 text-white px-4 py-2 rounded-full shadow-lg hover:scale-105 transition transform flex items-center">
+                <i class="fa-solid fa-location-dot mr-2"></i>
+                Add Location
+            </button>
+
+            <!-- Profile Picture and Username -->
+            
+            <span class="username" id="username"></span>
+        </div>
+    </nav>
+
+    <!-- Moving Red Glassmorphism Bar -->
+    <div class="moving-bar"></div>
+
+    <!-- Glassmorphism Boxes with Image and Button -->
+    <div class="glass-box glassmorphism">
+        <img src="https://logowik.com/content/uploads/images/warning6444.logowik.com.webp" alt="Sample Image">
+        <button class="bg-gradient-to-r from-blue-500 to-green-400 text-white px-4 py-2 rounded-full shadow-lg hover:scale-105 transition transform" onclick="emergency_msg_sbm()" >
+           Emergency Message
+        </button>
+    </div>
+
+    <div class="glass-box glassmorphism">
+        <img src="https://www.state.gov/wp-content/uploads/2021/06/AI-Motherboard-scaled.jpg" alt="Sample Image">
+        <button class="bg-gradient-to-r from-blue-500 to-green-400 text-white px-4 py-2 rounded-full shadow-lg hover:scale-105 transition transform">
+            Connect with AI
+        </button>
+    </div>
+
+    <div class="glass-box glassmorphism">
+        <img src="https://developers.google.com/static/maps/images/landing/hero_mobile_maps_sdks.png?hl=fr" alt="Sample Image">
+        <button class="bg-gradient-to-r from-blue-500 to-green-400 text-white px-4 py-2 rounded-full shadow-lg hover:scale-105 transition transform">
+            Connect with Maps
+        </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden glassmorphism fixed top-16 left-0 right-0 flex flex-col items-center p-4">
+        <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Home</a>
+        <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">About</a>
+        <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Services</a>
+        <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Contact</a>
+    </div>
+
+    <script>
+        function toggleMenu(x) {
+            x.classList.toggle("open");
+            const menu = document.getElementById("mobileMenu");
+            menu.classList.toggle("hidden");
+
+        }
+        function emergency_msg_sbm(){
+            window.location.href = "emergency.html"
+        }
+        const username = JSON.parse(localStorage.getItem('user-name'))
+        const REAL_USER_NAME = document.getElementById('username')
+        REAL_USER_NAME.innerText = username
+        
+    </script>
+
+</body>
+</html>
