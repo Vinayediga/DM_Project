@@ -28,26 +28,18 @@ login_submit.addEventListener("click", async function (event) {
 
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  const username = document.getElementById("name").value;
- 
 
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Update UI or perform actions after successful login
     const displayName = user.displayName;
-    console.log(displayName);
+    console.log("User's display name:", displayName);
     localStorage.setItem("user-name", JSON.stringify(displayName));
     window.location.href = "home.html";
-    // Redirect to homepage after successful login
   } catch (error) {
-    const errorMessage = error.message;
-    alert(errorMessage);
+    console.error("Error during login:", error);
+    alert(error.message);
   }
 });
 
@@ -58,48 +50,28 @@ forgotpassword.addEventListener("click", async function (event) {
   const email = document.getElementById("email").value;
 
   try {
-    await sendPasswordResetEmail(auth, email)
-      .then(() => {
-        console.log(email);
-
-        alert("password send to your email");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-      });
+    await sendPasswordResetEmail(auth, email);
+    alert("Password reset email sent to your email address.");
   } catch (error) {
-    const errorMessage = error.message;
-    alert(errorMessage);
+    console.error("Error sending password reset email:", error);
+    alert(error.message);
   }
 });
+
 const google_login_btn = document.getElementById("google_login");
-google_login_btn.addEventListener("click", function () {
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken; 
-      const user = result.user;
-      alert(`User logged in: ${JSON.stringify(user)}`);
-      const displayName = user.displayName;
-      console.log("User's display name:", displayName);
+google_login_btn.addEventListener("click", async function () {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    const user = result.user;
 
-      localStorage.setItem('user-name', JSON.stringify(displayName));
-      console.log(user);
-      window.location.href = "home.html"
-      
-    })
-    .catch((error) => {
-     
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      
-      const email = error.customData.email;
-      
-      const credential = GoogleAuthProvider.credentialFromError(error);
-    
-    });
-
-  })
+    alert(`User logged in: ${JSON.stringify(user)}`);
+    const displayName = user.displayName;
+    localStorage.setItem('user-name', JSON.stringify(displayName));
+    window.location.href = "home.html";
+  } catch (error) {
+    console.error("Error during Google sign-in:", error);
+    alert(error.message);
+  }
+});
